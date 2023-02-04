@@ -4,6 +4,7 @@
 #include "network_interface.hh"
 
 #include <optional>
+#include <vector>
 #include <queue>
 
 //! \brief A wrapper for NetworkInterface that makes the host-side
@@ -12,9 +13,10 @@
 //! later retrieval. Otherwise, behaves identically to the underlying
 //! implementation of NetworkInterface.
 class AsyncNetworkInterface : public NetworkInterface {
+private:
     std::queue<InternetDatagram> _datagrams_out{};
 
-  public:
+public:
     using NetworkInterface::NetworkInterface;
 
     //! Construct from a NetworkInterface
@@ -48,7 +50,15 @@ class Router {
     //! as specified by the route with the longest prefix_length that matches the
     //! datagram's destination address.
     void route_one_datagram(InternetDatagram &dgram);
+    struct RouteEntry {
+        uint32_t route_prefix = 0;
+        uint8_t prefix_length = 0;
+        std::optional<Address> next_hop = std::nullopt;
+        size_t interface_num = 0;
+    };
+    std::vector<RouteEntry> _route_table{};
 
+    bool prefix_equal(uint32_t ip1, uint32_t ip2, uint8_t len);
   public:
     //! Add an interface to the router
     //! \param[in] interface an already-constructed network interface

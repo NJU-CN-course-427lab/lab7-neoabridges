@@ -1,5 +1,8 @@
 #!/bin/bash
 
+#WEB_HASH=`./apps/webget cs144.keithw.org /nph-hasher/xyzzy | tee /dev/stderr | tail -n 1`
+#CORRECT_HASH="7SmXqWkrLKzVBCEalbSPqBcvs11Pw263K7x4Wv3JckI"
+
 WEB_HASH=`./apps/webget www.njucn2022.top /check_ans/ans | tee /dev/stderr | tail -n 1`
 CORRECT_HASH="adfafsdf3lfo5d6s6f7oj7f8ad8s876546SDSFSGDGGFDGRY"
 
