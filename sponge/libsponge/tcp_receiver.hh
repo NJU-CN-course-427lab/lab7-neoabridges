@@ -7,6 +7,7 @@
 #include "wrapping_integers.hh"
 
 #include <optional>
+using namespace std;
 
 //! \brief The "receiver" part of a TCP implementation.
 
@@ -16,7 +17,10 @@
 class TCPReceiver {
     //! Our data structure for re-assembling bytes.
     StreamReassembler _reassembler;
-
+    optional<WrappingInt32> _isn = nullopt;
+    //WrappingInt32 _isn;
+    //std::optional _
+    size_t _checkpoint = 0;
     //! The maximum number of bytes we'll store.
     size_t _capacity;
 

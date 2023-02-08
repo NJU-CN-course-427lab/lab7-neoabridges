@@ -22,16 +22,30 @@ class TCPSender {
 
     //! outbound queue of segments that the TCPSender wants sent
     std::queue<TCPSegment> _segments_out{};
-
+    std::queue<TCPSegment> _segments_wait{};
     //! retransmission timer for the connection
     unsigned int _initial_retransmission_timeout;
-
+    unsigned int _retransmission_timeout; // RTO
     //! outgoing stream of bytes that have not yet been sent
     ByteStream _stream;
 
     //! the (absolute) sequence number for the next byte to be sent
     uint64_t _next_seqno{0};
 
+    // my code here
+    
+    uint64_t _bytes_in_flight = 0; // the size of bytes in flight
+    bool _syn = false;
+    bool _fin = false;
+    bool _timer_is_running = false; // flag
+
+    size_t _timer = 0; 
+    size_t _retransmission_times = 0;
+    
+
+    uint16_t _receiver_window_size = 0;
+
+    uint64_t _recieved_ackno{0};
   public:
     //! Initialize a TCPSender
     TCPSender(const size_t capacity = TCPConfig::DEFAULT_CAPACITY,
@@ -60,6 +74,9 @@ class TCPSender {
     void tick(const size_t ms_since_last_tick);
     //!@}
 
+    // my code here
+    //! \brief send TCP segment and relative operations
+    void sending_operations(TCPSegment& seg);
     //! \name Accessors
     //!@{
 

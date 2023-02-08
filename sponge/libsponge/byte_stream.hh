@@ -2,6 +2,9 @@
 #define SPONGE_LIBSPONGE_BYTE_STREAM_HH
 
 #include <string>
+using namespace std;
+
+
 
 //! \brief An in-order byte stream.
 
@@ -11,6 +14,14 @@
 class ByteStream {
   private:
     // Your code here -- add private members as necessary.
+
+    std::string _buffer = "";
+    size_t _writes = 0; //total num of writes
+    size_t _cap = 0; //capacity
+    size_t _reads = 0;// total num of reads
+    //size_t _curr_used = 0;
+    bool _input_ends = false;
+
 
     // Hint: This doesn't need to be a sophisticated data structure at
     // all, but if any of your tests are taking longer than a second,
@@ -29,8 +40,8 @@ class ByteStream {
     //! Write a string of bytes into the stream. Write as many
     //! as will fit, and return how many were written.
     //! \returns the number of bytes accepted into the stream
-    size_t write(const std::string &data);
-
+    size_t write(const string &data);
+    size_t write(const char data);
     //! \returns the number of additional bytes that the stream has space for
     size_t remaining_capacity() const;
 
